@@ -15,8 +15,13 @@
  */
 package com.github.mobile.ui;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
 /**
  * Web view extension with scrolling fixes
@@ -29,6 +34,7 @@ public class WebView extends android.webkit.WebView {
      * @param defStyle
      * @param privateBrowsing
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public WebView(final Context context, final AttributeSet attrs,
                    final int defStyle, final boolean privateBrowsing) {
         super(context, attrs, defStyle, privateBrowsing);
@@ -73,6 +79,9 @@ public class WebView extends android.webkit.WebView {
 
     @Override
     public boolean canScrollHorizontally(final int direction) {
-        return super.canScrollHorizontally(direction);
+        if (SDK_INT >= ICE_CREAM_SANDWICH)
+            return super.canScrollHorizontally(direction);
+        else
+            return canScrollCodeHorizontally(direction);
     }
 }

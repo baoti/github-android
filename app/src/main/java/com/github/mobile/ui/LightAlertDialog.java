@@ -15,8 +15,13 @@
  */
 package com.github.mobile.ui;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Build;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
 /**
  * Alert dialog using the Holo Light theme
@@ -30,7 +35,10 @@ public class LightAlertDialog extends AlertDialog {
      * @return dialog
      */
     public static AlertDialog create(final Context context) {
-        return new LightAlertDialog(context, THEME_HOLO_LIGHT);
+        if (SDK_INT >= ICE_CREAM_SANDWICH)
+            return new LightAlertDialog(context, THEME_HOLO_LIGHT);
+        else
+            return new LightAlertDialog(context);
     }
 
     private LightAlertDialog(final Context context, final int theme) {
@@ -53,13 +61,17 @@ public class LightAlertDialog extends AlertDialog {
          * @return dialog builder
          */
         public static LightAlertDialog.Builder create(final Context context) {
-            return new LightAlertDialog.Builder(context, THEME_HOLO_LIGHT);
+            if (SDK_INT >= ICE_CREAM_SANDWICH)
+                return new LightAlertDialog.Builder(context, THEME_HOLO_LIGHT);
+            else
+                return new LightAlertDialog.Builder(context);
         }
 
         private Builder(Context context) {
             super(context);
         }
 
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         private Builder(Context context, int theme) {
             super(context, theme);
         }
