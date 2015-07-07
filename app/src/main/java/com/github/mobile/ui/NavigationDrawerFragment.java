@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -241,12 +242,18 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
         //screenSize - actionBar Height
         WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        Point screenSize = new Point();
-        display.getSize(screenSize);
+        int screenWidth;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Point screenSize = new Point();
+            display.getSize(screenSize);
+            screenWidth = screenSize.x;
+        } else {
+            screenWidth = display.getWidth();
+        }
 
         int actionBarHeight = getActionBar().getHeight();
 
-        return screenSize.x - actionBarHeight;
+        return screenWidth - actionBarHeight;
 
     }
 }
