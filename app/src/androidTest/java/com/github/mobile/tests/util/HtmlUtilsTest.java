@@ -19,6 +19,9 @@ import android.test.AndroidTestCase;
 
 import com.github.mobile.util.HtmlUtils;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+
 /**
  * Unit tests of HTML conversions done when rendering markdown
  */
@@ -125,7 +128,10 @@ public class HtmlUtilsTest extends AndroidTestCase {
      */
     public void testEmReplacedWithI() {
         String html = "a<em>b</em>c";
-        assertEquals(html, format(html));
+        if (SDK_INT < ICE_CREAM_SANDWICH)
+            assertEquals("a<i>b</i>c", format(html));
+        else
+            assertEquals(html, format(html));
     }
 
     /**
@@ -133,7 +139,10 @@ public class HtmlUtilsTest extends AndroidTestCase {
      */
     public void testStrongReplacedWithB() {
         String html = "<strong>a</strong>";
-        assertEquals(html, format(html));
+        if (SDK_INT < ICE_CREAM_SANDWICH)
+            assertEquals("<b>a</b>", format(html));
+        else
+            assertEquals(html, format(html));
     }
 
     /**
